@@ -81,6 +81,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChannelGroup.cpp" />
     <ClCompile Include="ChannelRecord.cpp" />
     <ClCompile Include="RadioFreqTableConvert.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -90,7 +91,10 @@
     <ClCompile Include="StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChannelGroup.h" />
     <ClInclude Include="ChannelRecord.h" />
+    <ClInclude Include="Conversions.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="RadioFreqTableConvertVer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />

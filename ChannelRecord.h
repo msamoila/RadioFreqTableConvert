@@ -1,12 +1,6 @@
 #pragma once
 #include "stdafx.h"
-
-enum TxPower
-{
-	Low,
-	Middle,
-	High
-};
+#include "Enums.h"
 
 
 class ChannelRecord {
@@ -17,6 +11,7 @@ class ChannelRecord {
 	double			_txFrequency;
 	double			_cTCSS;
 	double			_rxCTCSS;
+	std::string		_comment;
 	TxPower			_txPower;
 
 public:
@@ -39,4 +34,5 @@ public:
 
 	bool ReadRT(std::string line);
 	std::string WriteTD();
+	std::string WriteTable();
 };

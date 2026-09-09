@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "StringUtils.h"
 #include "ChannelRecord.h"
+#include "Conversions.h"
 
 
 bool ChannelRecord::ReadRT(std::string line)
@@ -28,6 +29,7 @@ bool ChannelRecord::ReadRT(std::string line)
 	{
 		_rxCTCSS = std::stod(columns[8]);
 	}
+	_comment = columns[9];
 	if (columns[11] == "Low")
 	{
 		_txPower = Low;
@@ -48,39 +50,23 @@ std::string ChannelRecord::WriteTD()
 	//Channel No, RX Freq [MHz], TX Freq [MHz], RX CTCSS/DCS, TX CTCSS/DCS, Power, Bandwidth, Scrambler, PTT ID, Freq Hop, Busy Lock, Scan, Rx Model, Name
 	std::ostringstream oss;
 	oss << _channelNumber << ','  << _rxFrequency << ',' << _txFrequency << ',';
-	if (_rxCTCSS == 0.)
-	{
-		oss << "OFF,";
-	}
-	else
-	{
-		oss << _rxCTCSS << ',';
-	}
+	oss << CtssToString(_rxCTCSS) << ',';
+	oss << CtssToString(_cTCSS) << ',';
+	oss << TxPowerToString(_txPower) << ',';
+	oss << BandwidthForFrequency(_txFrequency) << ',';
 
-	if (_cTCSS == 0.)
-	{
-		oss << "OFF,";
-	}
-	else
-	{
-		oss << _cTCSS << ',';
-	}
-	switch (_txPower)
-	{
-	case High:
-		oss << "High,";
-		break;
-	case Middle:
-		oss << "Middle,";
-		break;
-	case Low:
-		oss << "Low,";
-		break;
-	}
+	oss << "0,Off,OFF,OFF,ON,FM," << _name;
+	return oss.str();
+}
 
-	const int BAND_70CM_LOWER_LIMIT_MHZ = 420;
-	const std::string bandWidth = _txFrequency > BAND_70CM_LOWER_LIMIT_MHZ ? "Wide" : "Narrow";
-
-	oss << bandWidth << ",0,Off,OFF,OFF,ON,FM," << _name;
+std::string ChannelRecord::WriteTable()
+{
+	std::ostringstream oss;
+	oss << _channelNumber << ',' << _originalChannelNumber << ',' << _rxFrequency << ',' << _txFrequency << ',' << _name << ',';
+	oss << CtssToString(_rxCTCSS) << ',';
+	oss << CtssToString(_cTCSS) << ',';
+	oss << TxPowerToString(_txPower) << ',';
+	oss << BandwidthForFrequency(_txFrequency) << ',';
+	oss << _comment;
 	return oss.str();
 }
