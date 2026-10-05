@@ -31,6 +31,5 @@ std::string TxPowerToString(TxPower txPower)
 
 std::string BandwidthForFrequency(double txFrequency)
 {
-	const int BAND_70CM_LOWER_LIMIT_MHZ = 420;
-	return txFrequency > BAND_70CM_LOWER_LIMIT_MHZ ? "Wide" : "Narrow";
+	return "Wide";
 }
